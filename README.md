@@ -26,7 +26,6 @@ My app is primary targetted at chemistry students through GSCEs, A levels, and U
 ### Tech Stack
 
 - React
-- TypeScript
 - MySQL
 - Express
 - Client libraries:
