@@ -1,0 +1,26 @@
+.sketcher {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+#sketcher {
+  border: none;
+
+  &_toolbar {
+    position: absolute;
+    bottom: 3px;
+  }
+
+  &_button_open {
+    display: none;
+  }
+
+  &_button_save {
+    display: none;
+  }
+
+  &_button_template_label {
+    display: none;
+  }
+}
