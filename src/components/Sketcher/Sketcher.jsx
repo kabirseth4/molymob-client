@@ -4,11 +4,8 @@ import "../../libraries/ChemDoodleWeb/ChemDoodleWeb.css";
 import "../../libraries/ChemDoodleWeb/uis/jquery-ui-1.11.4.css";
 import "./Sketcher.scss";
 
-const Sketcher = () => {
+const Sketcher = ({ setCurrentMol }) => {
   useEffect(() => {
-    ChemDoodle.ELEMENT["H"].jmolColor = "black";
-    ChemDoodle.ELEMENT["S"].jmolColor = "#B9A130";
-
     const sketcher = new ChemDoodle.SketcherCanvas("sketcher", 390, 300, {
       useServices: false,
       oneMolecule: true,
@@ -18,6 +15,17 @@ const Sketcher = () => {
     sketcher.styles.atoms_useJMOLColors = true;
     sketcher.styles.bonds_clearOverlaps_2D = true;
     sketcher.styles.shapes_color = "c10000";
+    sketcher.oldFunc = sketcher.checksOnAction;
+    // using force improves efficiency, so changes will not be checked until a render occurs
+    // you can force a check by sending true to this function after calling check with a false
+    sketcher.checksOnAction = function (force) {
+      // call the old checksOnAction function
+      this.oldFunc(force);
+      // there will only be one molecule because this is a single molecule sketcher
+      let mol = this.getMolecule();
+      let molFile = ChemDoodle.writeMOL(mol);
+      setCurrentMol(molFile);
+    };
     sketcher.repaint();
     sketcher.toolbarManager.setup();
   }, []);
